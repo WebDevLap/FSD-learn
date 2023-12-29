@@ -5,7 +5,7 @@ export const PostLoading = ({ isLoading }: { isLoading: boolean }) => {
   if (isLoading)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', height: 140, alignItems: 'center' }}>
-        <CircularProgress size={100} color="pink" />
+        <CircularProgress size={100} sx={{ color: 'pink.main' }} />
       </Box>
     );
 
