@@ -21,7 +21,7 @@ export const getUser = createAsyncThunk(
   async function ({ email, password }: { email: string; password: string }, { dispatch }) {
     const users = await homeAxios.get<IUser[]>('/users');
     const user = checkUser(users.data, email, password);
-    if (!user) throw new Error('Не удалось найти такой аккаунт');
+    if (!user) throw new Error('Неправильный логин или пароль');
     dispatch(setUser(user));
     localStorage.setItem('user', JSON.stringify(user));
     dispatch(setOpen(false));

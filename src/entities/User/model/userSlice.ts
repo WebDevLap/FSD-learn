@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IUser } from '@shared/api';
 import { getUserFromLS } from '../utils/getUserFromLS';
-import { StatusType } from '@shared/types';
 
 interface IState {
   user: IUser | null;

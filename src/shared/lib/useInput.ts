@@ -60,6 +60,12 @@ export const useInput = (defValue: string, rules: IRules) => {
   function onBlur() {
     setIsShowError(true);
   }
+  function clear(){
+    setValue('');
+    setIsShowError(false)
+    setErrorText('Ошибка!')
+    setIsValid(false)
+  }
 
   return {
     value,
@@ -67,5 +73,6 @@ export const useInput = (defValue: string, rules: IRules) => {
     isValid,
     isShowError: error,
     errorText: error ? errorText : '',
+    clear
   };
 };

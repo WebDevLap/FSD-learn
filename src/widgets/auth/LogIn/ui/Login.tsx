@@ -13,8 +13,6 @@ import {
 import React from 'react';
 import { getUser, setOpen } from '../model/loginSlice';
 import { useAppDispatch, useAppSelector } from '@app/store';
-import { IUser } from '@shared/api';
-import { setUser } from '@entities/User';
 import { useInput } from '@shared/lib';
 import { useSnackbar } from '@shared/lib';
 
@@ -28,11 +26,12 @@ export const Login = () => {
     minWidth: 4,
     maxWidth: 30,
   });
-
   const snack = useSnackbar();
+  const dispatch = useAppDispatch();
+
   const firstRenderForStatus = React.useRef<boolean>(false);
   const { status, errorText, isOpen } = useAppSelector((state) => state.login);
-  const dispatch = useAppDispatch();
+  const [isValid, setIsValid] = React.useState(false);
 
   async function onSubmit() {
     dispatch(getUser({ email: email.value, password: password.value }));
@@ -42,13 +41,29 @@ export const Login = () => {
   }
 
   React.useEffect(() => {
+    if (email.isValid && password.isValid) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [email.isValid, password.isValid]);
+
+  React.useEffect(() => {
     if (!firstRenderForStatus.current) {
       firstRenderForStatus.current = true;
       return;
     }
     if (status === 'rejected' || status === 'fulfied') {
-      snack.setSeverity(status === 'fulfied' ? 'success' : 'error');
-      snack.setText(status === 'fulfied' ? 'Успешный вход в аккаунт' : errorText);
+      if (status === 'fulfied') {
+        snack.setSeverity('success');
+        snack.setText('Успешный вход в аккаунт');
+        email.clear();
+        password.clear();
+      } else {
+        snack.setText(errorText);
+        snack.setSeverity('error');
+      }
+
       snack.setIsOpen(true);
     }
   }, [status]);
@@ -80,7 +95,12 @@ export const Login = () => {
           <Button variant="outlined" onClick={dialogClose}>
             cancel
           </Button>
-          <Button variant="contained" color="pink" type="submit" onClick={onSubmit}>
+          <Button
+            variant="contained"
+            color="pink"
+            type="submit"
+            onClick={onSubmit}
+            disabled={!isValid}>
             submit
           </Button>
         </DialogActions>

@@ -1,28 +1,20 @@
-import React from "react"
-import { useAppDispatch } from "./store"
-import {  getPosts } from "@entities/Posts";
-import { Header } from "@widgets/Header";
-import {PostList} from '@widgets/Posts'
-import { Login } from "@widgets/auth/LogIn";
-import { Signup } from "@widgets/auth/SignUp/ui/Signup";
-
+import React from 'react';
+import { Header } from '@widgets/Header';
+import { Login } from '@widgets/auth/LogIn';
+import { Signup } from '@widgets/auth/SignUp/ui/Signup';
+import { Paper } from '@mui/material';
+import { Routers } from './Routers';
 
 function App() {
-  const dispatch = useAppDispatch();
-  React.useEffect(() => {
-    // async thunks
-    dispatch(getPosts()) 
-  })
+
 
   return (
-    <>
-      <div >
-        <Header/>
-        <PostList/>
-        <Login />
-        <Signup/>
-      </div>
-    </>
-  )
+    <Paper sx={{ minHeight: '100vh' }}>
+      <Header />
+      <Login />
+      <Signup />
+      <Routers />
+    </Paper>
+  );
 }
-export default App
+export default App;

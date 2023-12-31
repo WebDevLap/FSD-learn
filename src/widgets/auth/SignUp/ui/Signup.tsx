@@ -32,6 +32,7 @@ export const Signup = () => {
   const snack = useSnackbar();
   const firstRenderForStatus = React.useRef<boolean>(false);
   const { status, errorText, isOpen } = useAppSelector((state) => state.signup);
+  const [isValid, setIsValid] = React.useState(false);
   const dispatch = useAppDispatch();
 
   async function onSubmit() {
@@ -48,6 +49,14 @@ export const Signup = () => {
   function dialogClose() {
     dispatch(setOpen(false));
   }
+
+  React.useEffect(() => {
+    if (email.isValid && password.isValid && name.isValid && avatar.isValid) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [email.isValid, password.isValid, name.isValid, avatar.isValid]);
 
   React.useEffect(() => {
     if (!firstRenderForStatus.current) {
@@ -104,7 +113,12 @@ export const Signup = () => {
           <Button variant="outlined" onClick={dialogClose}>
             cancel
           </Button>
-          <Button variant="contained" color="pink" type="submit" onClick={onSubmit}>
+          <Button
+            variant="contained"
+            color="pink"
+            type="submit"
+            onClick={onSubmit}
+            disabled={!isValid}>
             submit
           </Button>
         </DialogActions>

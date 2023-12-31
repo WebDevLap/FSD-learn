@@ -1,4 +1,5 @@
 import { postsSlice } from '@entities/Posts';
+import { userPostsSlice } from '@entities/Posts/model/userPostsSlice';
 import { userSlice } from '@entities/User';
 import { configureStore } from '@reduxjs/toolkit';
 import { loginSlice } from '@widgets/auth/LogIn/model/loginSlice';
@@ -9,6 +10,7 @@ export const store = configureStore({
   reducer: {
     posts: postsSlice,
     user: userSlice,
+    userPosts: userPostsSlice,
     login: loginSlice,
     signup: signupSlice,
   },

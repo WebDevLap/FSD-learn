@@ -1,10 +1,6 @@
-import { useAppSelector } from '@app/store';
-import { Delete } from '@mui/icons-material';
 import {
   Avatar,
   Box,
-  Button,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -15,45 +11,21 @@ import {
 } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { useMenu } from '@shared/lib';
-import { setOpen as setLoginOpen } from '@widgets/auth/LogIn';
-import { setOpen as setSignupOpen } from '@widgets/auth/SignUp';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import { IUser } from '@shared/api';
 
-interface IMenuItem {
+export interface IMenuItem {
   Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
   text: string;
   func: () => any;
 }
 
-export const User = ({ menuItems }: { menuItems: IMenuItem[] }) => {
-  const user = useAppSelector((state) => state.user.user);
-  const dispatch = useDispatch();
+export const User = ({ menuItems, sx, user }: { menuItems: IMenuItem[]; sx: any; user: IUser }) => {
   const menu = useMenu();
-
-  function onLoginClick() {
-    dispatch(setLoginOpen(true));
-  }
-  function onSignupClick() {
-    dispatch(setSignupOpen(true));
-  }
-
-  if (!user)
-    return (
-      <Box>
-        <Button variant="outlined" color="inherit" sx={{ mr: 2 }} onClick={onLoginClick}>
-          log in
-        </Button>
-        <Button variant="contained" color="pink" onClick={onSignupClick}>
-          sign up
-        </Button>
-      </Box>
-    );
 
   return (
     <>
       <Box
-        sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }}
+        sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.5, cursor: 'pointer', ...sx }}
         onClick={menu.open}>
         <Avatar src={user.avatar} alt={user.name} />
         <Typography>{user.name}</Typography>

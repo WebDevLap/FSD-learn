@@ -1,1 +1,2 @@
-export * from './PostList'
+export * from './ui/PostList'
+export * from './ui/MyPosts'
